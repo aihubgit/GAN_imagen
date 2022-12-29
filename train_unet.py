@@ -17,10 +17,10 @@ import numpy as np
 import torch
 import random
 
-scales = [64, 128, 256]
+scales = [256]
 batch_size = 2
 max_batch_size = 4
-unet_to_train = 3
+unet_to_train = 1
 shuffle = True
 drop_tags=0.75
 image_size = scales[unet_to_train-1]
@@ -77,7 +77,7 @@ class PadImage(object):
         return self.__class__.__name__ + '(padding={0}, fill={1}, padding_mode={2})'.\
             format(self.fill, self.padding_mode)
 
-unet1 = Unet(
+unet = Unet(
     dim = 256,
     cond_dim = 512,
     dim_mults = (1, 2, 3, 4),
@@ -88,39 +88,15 @@ unet1 = Unet(
     memory_efficient = False
 )
 
-unet2 = Unet(
-    dim = 128,
-    cond_dim = 512,
-    dim_mults = (1, 2, 4, 8),
-    num_resnet_blocks = (2, 4, 8, 8),
-    layer_attns = (False, False, False, True),
-    layer_cross_attns = (False, False, False, True),
-    cond_on_text = True,
-    memory_efficient = True
-)
-
-unet3 = Unet(
-    dim = 64,
-    cond_dim=512,
-    dim_mults = (1, 2, 4, 8),
-    num_resnet_blocks = (2, 4, 8, 8),
-    layer_attns = (False, False, False, True),
-    layer_cross_attns = (False, False, False, True),
-    cond_on_text = True,
-    memory_efficient = True
-)
-
-
-unets = (unet1, unet2, unet3)
-
+unets = unet
 
 imagen = ElucidatedImagen(
     unets = unets,  
-    image_sizes = (64,128,256),
+    image_sizes = 256,
     cond_drop_prob = 0.1,
-    num_sample_steps = (64,32,32),
+    num_sample_steps = 64,
     sigma_min = 0.002,
-    sigma_max = (80,160,160),
+    sigma_max = 80,
     sigma_data = 0.5,
     rho = 7,
     P_mean = -1.2,
