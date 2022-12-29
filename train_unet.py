@@ -17,8 +17,6 @@ import numpy as np
 import torch
 import random
 
-
-wandb.init(project="imagen")
 scales = [64, 128, 256]
 batch_size = 2
 max_batch_size = 4
@@ -29,8 +27,8 @@ image_size = scales[unet_to_train-1]
 
 
 # unets for unconditional imagen
-source = '/workspace/GAN_imagen/sample_images/01.symbol/'
-network = '/workspace/GAN_imagen/models/train_unet.pth'
+source = '/workspace/data99-1/train/01.symbol/'
+network = '/workspace/data99-1/models/train_unet.pth'
 imgs = get_images(source, verify=False)
 txts = get_images(source, exts=".txt")
 
@@ -63,7 +61,7 @@ class PadImage(object):
         assert padding_mode in ['constant', 'edge', 'reflect', 'symmetric']
 
         self.fill = fill
-        self.padding_mode = padding_mode
+        self.padnum_resnet_blocks = (2, 4, 8, 8),ding_mode = padding_mode
 
     def __call__(self, img):
         """
@@ -80,9 +78,9 @@ class PadImage(object):
             format(self.fill, self.padding_mode)
 
 unet1 = Unet(
-    dim = 64,
+    dim = 256,
     cond_dim = 512,
-    dim_mults = (1, 2, 4, 8),
+    dim_mults = (1, 2, 3, 4),
     num_resnet_blocks = 3,
     layer_attns = (False, True, True, True),
     layer_cross_attns = (False, True, True, True),
@@ -102,10 +100,10 @@ unet2 = Unet(
 )
 
 unet3 = Unet(
-    dim = 256,
+    dim = 64,
     cond_dim=512,
     dim_mults = (1, 2, 4, 8),
-    
+    num_resnet_blocks = (2, 4, 8, 8),
     layer_attns = (False, False, False, True),
     layer_cross_attns = (False, False, False, True),
     cond_on_text = True,
@@ -198,7 +196,7 @@ for i in range(200000): #200000
         sample_images1 = transforms.Resize(image_size)(images[-1])
         sample_images = torch.cat([sample_images0, sample_images1])
         grid = make_grid(sample_images, nrow=4, normalize=False, range=(-1, 1))
-        VTF.to_pil_image(grid).save(f'/home/hp/imagen/samples/sample-{i // 100}.png')
+        VTF.to_pil_image(grid).save(f'/workspace/data99-1/unet_outputs/unet-{i // 100}.png')
         print('SAVING NETWORK')
         trainer.save(network)
         print('Network Saved')
