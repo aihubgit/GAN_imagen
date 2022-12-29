@@ -61,7 +61,7 @@ class PadImage(object):
         assert padding_mode in ['constant', 'edge', 'reflect', 'symmetric']
 
         self.fill = fill
-        self.padnum_resnet_blocks = (2, 4, 8, 8),ding_mode = padding_mode
+        self.padding_mode = padding_mode
 
     def __call__(self, img):
         """
