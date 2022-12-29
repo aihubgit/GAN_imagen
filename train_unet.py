@@ -1,4 +1,3 @@
-import wandb
 from collections import deque
 from imagen_pytorch import Unet, Imagen, ImagenTrainer, ElucidatedImagen
 from imagen_pytorch.configs import ElucidatedImagenConfig
@@ -20,18 +19,18 @@ import random
 
 
 wandb.init(project="imagen")
-wandb.config.scales = [64, 128, 256]
-wandb.config.batch_size = 2
-wandb.config.max_batch_size = 4
-wandb.config.unet_to_train = 3
-wandb.config.shuffle = True
-wandb.config.drop_tags=0.75
-wandb.config.image_size = wandb.config.scales[wandb.config.unet_to_train-1]
+scales = [64, 128, 256]
+batch_size = 2
+max_batch_size = 4
+unet_to_train = 3
+shuffle = True
+drop_tags=0.75
+image_size = scales[unet_to_train-1]
 
 
 # unets for unconditional imagen
-source = '/home/hp/datasets/99_219836/01.symbol_crop/'
-network = '/home/hp/imagen/models/train_unet.pth'
+source = '/workspace/GAN_imagen/sample_images/01.symbol/'
+network = '/workspace/GAN_imagen/models/train_unet.pth'
 imgs = get_images(source, verify=False)
 txts = get_images(source, exts=".txt")
 
@@ -148,21 +147,21 @@ trainer = ImagenTrainer(
 
 tforms = transforms.Compose([
         PadImage(),
-        transforms.Resize((wandb.config.image_size, wandb.config.image_size)),
+        transforms.Resize((image_size, image_size)),
         transforms.RandomHorizontalFlip(),
         transforms.ToTensor()])
 print('Data')
 
 data = ImageLabelDataset(imgs, txts, None,
                         #poses=None,
-                        dim=(wandb.config.image_size, wandb.config.image_size),
+                        dim=(image_size, image_size),
                         transform=tforms,
                         tag_transform=txt_xforms,
                         channels_first=True,
                         return_raw_txt=True,
                         no_preload=False)
 dl = torch.utils.data.DataLoader(data,
-                                batch_size=wandb.config.batch_size,
+                                batch_size=batch_size,
                                 shuffle=True,
                                 num_workers=1,
                                 pin_memory=True)
@@ -176,27 +175,27 @@ sample_texts=['상표유형은 심볼마크 이다.']
 
 rate = deque([1], maxlen=5)
 # working training loop
-print('Scale: {} | Unet: {}'.format(wandb.config.image_size, wandb.config.unet_to_train))
+print('Scale: {} | Unet: {}'.format(image_size, unet_to_train))
 for i in range(200000): #200000
     t1 = time.monotonic()
-    loss = trainer.train_step(unet_number = wandb.config.unet_to_train, max_batch_size = wandb.config.max_batch_size)
+    loss = trainer.train_step(unet_number = unet_to_train, max_batch_size = max_batch_size)
     t2 = time.monotonic()
     rate.append(round(1.0 / (t2 - t1), 2))
     wandb.log({"loss": loss, "step": i})
     print(f'loss: {loss} | Step: {i} | Rate: {round(np.mean(rate), 2)}')
 
     if not (i % 50) and False:
-        valid_loss = trainer.valid_step(unet_number = wandb.config.unet_to_train, max_batch_size = wandb.config.max_batch_size)
+        valid_loss = trainer.valid_step(unet_number = unet_to_train, max_batch_size = max_batch_size)
         wandb.log({"Validated loss": valid_loss, "step": i})
         print(f'valid loss: {valid_loss}')
 
     if not (i % 500) and trainer.is_main: # is_main makes sure this can run in distributed
         rng_state = torch.get_rng_state()
         torch.manual_seed(1)
-        images = trainer.sample(batch_size = 4, return_pil_images = False, texts=sample_texts, stop_at_unet_number=wandb.config.unet_to_train, return_all_unet_outputs=True) # returns List[Image]
+        images = trainer.sample(batch_size = 4, return_pil_images = False, texts=sample_texts, stop_at_unet_number=unet_to_train, return_all_unet_outputs=True) # returns List[Image]
         torch.set_rng_state(rng_state)
-        sample_images0 = transforms.Resize(wandb.config.image_size)(images[0])
-        sample_images1 = transforms.Resize(wandb.config.image_size)(images[-1])
+        sample_images0 = transforms.Resize(image_size)(images[0])
+        sample_images1 = transforms.Resize(image_size)(images[-1])
         sample_images = torch.cat([sample_images0, sample_images1])
         grid = make_grid(sample_images, nrow=4, normalize=False, range=(-1, 1))
         VTF.to_pil_image(grid).save(f'/home/hp/imagen/samples/sample-{i // 100}.png')
