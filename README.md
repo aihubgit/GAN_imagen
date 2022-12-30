@@ -1,5 +1,5 @@
-## 모델 description  - 구축계획서 등에 명기된 간략한 모델 설명
-
+## 모델 description 
+ - 구축계획서 등에 명기된 간략한 모델 설명
 
 ## 모델 아키텍쳐
  - CNN 백본, Transformer 백본 등 구축계획서 명기된 간략한 모델 아키텍쳐 설명과 도식도
@@ -14,7 +14,7 @@
  - 모델 task(분류, 회귀, 객체 탐지 등)
 
 ## training dataset
- - traing 
+ - traing 대상이 되는 데이터
 
 ## training 요소들
  - 사용된 loss function, optimizer 등 간략한 설명, epoch, learning rate, batch size 등 최종 하이퍼파라미터 값 기재
