@@ -21,26 +21,27 @@ from PIL import Image
 
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--texts', type=str, default='상표유형은 심볼마크 이다.', help="sample_texts")
-parser.add_argument('--scales', type=int, default=256, help="image_scales")
-parser.add_argument('--batch', type=int, default=2, help="batch_size")
-parser.add_argument('--max_batch', type=int, default=4, help="max_batch_size")
-parser.add_argument('--source', type=str, default='/workspace/data99-1/train/01.symbol/', help="image source")
-parser.add_argument('--network', type=str, default='/workspace/data99-1/models/train_unet.pth', help="model_file_path")
-parser.add_argument('--iter', type=int, default=200000, help="iter_size")
+parser.add_argument('--texts', type=str, required = False, default='상표유형은 심볼마크 이다.', help="sample_texts")
+parser.add_argument('--scales', type=int, required = False, default=256, help="image_scales")
+parser.add_argument('--batch', type=int, required = False, default=2, help="batch_size")
+parser.add_argument('--max_batch', type=int, required = False, default=4, help="max_batch_size")
+parser.add_argument('--source', type=str, required = False, default='/workspace/data99-1/train/01.symbol/', help="image source")
+parser.add_argument('--network', type=str, required = False, default='/workspace/data99-1/models/train_unet.pth', help="model_file_path")
+parser.add_argument('--iter', type=int, required = False, default=200000, help="iter_size")
 
+args = parser.parse_args()
 
-scales = [scales]
-batch_size = batch
-max_batch_size = max_batch
+scales = [args.scales]
+batch_size = args.batch
+max_batch_size = args.max_batch
 unet_to_train = 1
 shuffle = True
 drop_tags=0.75
 image_size = scales[unet_to_train-1]
 
 # unets for unconditional imagen
-source = source
-network = network
+source = args.source
+network = args.network
 imgs = get_images(source, verify=False)
 txts = get_images(source, exts=".txt")
 
@@ -162,7 +163,7 @@ sample_texts=[texts]
 rate = deque([1], maxlen=5)
 # working training loop
 print('Scale: {} | Unet: {}'.format(image_size, unet_to_train))
-for i in range(iter): #200000
+for i in range(args.iter): #200000
     t1 = time.monotonic()
     loss = trainer.train_step(unet_number = unet_to_train, max_batch_size = max_batch_size)
     t2 = time.monotonic()
