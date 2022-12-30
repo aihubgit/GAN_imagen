@@ -22,7 +22,7 @@ from PIL import Image
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--texts', type=str, required = False, default='상표유형은 심볼마크 이다.', help="sample_texts")
-parser.add_argument('--scales', type=int, required = False, default=256, help="image_scales")
+parser.add_argument('--scales', type=int, required = False, default=64, help="image_scales")
 parser.add_argument('--batch', type=int, required = False, default=2, help="batch_size")
 parser.add_argument('--max_batch', type=int, required = False, default=4, help="max_batch_size")
 parser.add_argument('--source', type=str, required = False, default='/workspace/data99-1/train/01.symbol/', help="image source")
@@ -168,12 +168,10 @@ for i in range(args.iter): #200000
     loss = trainer.train_step(unet_number = unet_to_train, max_batch_size = max_batch_size)
     t2 = time.monotonic()
     rate.append(round(1.0 / (t2 - t1), 2))
-    #wandb.log({"loss": loss, "step": i})
     print(f'loss: {loss} | Step: {i} | Rate: {round(np.mean(rate), 2)}')
 
     if not (i % 50) and False:
         valid_loss = trainer.valid_step(unet_number = unet_to_train, max_batch_size = max_batch_size)
-        #wandb.log({"Validated loss": valid_loss, "step": i})
         print(f'valid loss: {valid_loss}')
 
     if not (i % 500) and trainer.is_main: # is_main makes sure this can run in distributed
@@ -189,5 +187,3 @@ for i in range(args.iter): #200000
         print('SAVING NETWORK')
         trainer.save(network)
         print('Network Saved')
-        images = wandb.Image(VTF.to_pil_image(grid), caption="Top: Unet1, Bottom: Unet{}".format(unet_to_train))
-        #wandb.log({ "step": i, "outputs": images})
