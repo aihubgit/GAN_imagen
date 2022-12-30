@@ -6,7 +6,7 @@
 
 ![99-1](https://user-images.githubusercontent.com/120080865/210079680-2c671e28-5ce2-4ec9-b865-22a75bccd399.png)
 
-Efficient U-Net architecture for 642 → 2562
+Efficient U-Net architecture for 64 → 256
 
 ## input
  - input 되는 요소와 데이터 차원 등
