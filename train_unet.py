@@ -9,6 +9,7 @@ from torchvision import transforms
 from torchvision.transforms import functional as VTF
 from torchvision.utils import make_grid, save_image
 from PIL import Image
+
 import math
 import numbers
 import os
@@ -16,19 +17,28 @@ import time
 import numpy as np
 import torch
 import random
+import argparse
 
-scales = [256]
-batch_size = 2
-max_batch_size = 4
+parser = argparse.ArgumentParser()
+parser.add_argument('--texts', type=str, default='상표유형은 심볼마크 이다.', help="sample_texts")
+parser.add_argument('--scales', type=int, default=256, help="image_scales")
+parser.add_argument('--batch', type=int, default=2, help="batch_size")
+parser.add_argument('--max_batch', type=int, default=4, help="max_batch_size")
+parser.add_argument('--source', type=str, default='/workspace/data99-1/train/01.symbol/', help="image source")
+parser.add_argument('--network', type=str, default='/workspace/data99-1/models/train_unet.pth', help="model_file_path")
+parser.add_argument('--iter', type=int, default=200000, help="iter_size")
+
+scales = [scales]
+batch_size = batch
+max_batch_size = max_batch
 unet_to_train = 1
 shuffle = True
 drop_tags=0.75
 image_size = scales[unet_to_train-1]
 
-
 # unets for unconditional imagen
-source = '/workspace/data99-1/train/01.symbol/'
-network = '/workspace/data99-1/models/train_unet.pth'
+source = source
+network = network
 imgs = get_images(source, verify=False)
 txts = get_images(source, exts=".txt")
 
@@ -92,7 +102,7 @@ unets = unet
 
 imagen = ElucidatedImagen(
     unets = unets,  
-    image_sizes = 256,
+    image_sizes = scales,
     cond_drop_prob = 0.1,
     num_sample_steps = 64,
     sigma_min = 0.002,
@@ -122,7 +132,7 @@ trainer = ImagenTrainer(
 tforms = transforms.Compose([
         PadImage(),
         transforms.Resize((image_size, image_size)),
-        transforms.RandomHorizontalFlip(),
+        transforms.Rsample_textsandomHorizontalFlip(),
         transforms.ToTensor()])
 print('Data')
 
@@ -144,13 +154,13 @@ trainer.add_train_dataloader(dl)
 print('Network')
 trainer.load(network, noop_if_not_exist = True)
 
-sample_texts=['상표유형은 심볼마크 이다.']
+sample_texts=[texts]
 
 
 rate = deque([1], maxlen=5)
 # working training loop
 print('Scale: {} | Unet: {}'.format(image_size, unet_to_train))
-for i in range(200000): #200000
+for i in range(iter): #200000
     t1 = time.monotonic()
     loss = trainer.train_step(unet_number = unet_to_train, max_batch_size = max_batch_size)
     t2 = time.monotonic()
