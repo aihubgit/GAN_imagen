@@ -4,7 +4,8 @@
 ## 모델 아키텍쳐
  - CNN 백본, Transformer 백본 등 구축계획서 명기된 간략한 모델 아키텍쳐 설명과 도식도
 
-![99-1](https://user-images.githubusercontent.com/120080865/210079680-2c671e28-5ce2-4ec9-b865-22a75bccd399.png)
+![Efficient U-Net architecture for 642 → 2562](https://user-images.githubusercontent.com/120080865/210079680-2c671e28-5ce2-4ec9-b865-22a75bccd399.png)
+
 
 ## input
  - input 되는 요소와 데이터 차원 등
