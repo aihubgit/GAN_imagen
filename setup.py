@@ -41,6 +41,7 @@ setup(
     'pytorch-lightning',
     'pytorch-warmup',
     'sentencepiece',
+    'tensorboard',
     'torch>=1.6',
     'torchvision',
     'transformers',
