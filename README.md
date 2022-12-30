@@ -4,8 +4,9 @@
 ## 모델 아키텍쳐
  - CNN 백본, Transformer 백본 등 구축계획서 명기된 간략한 모델 아키텍쳐 설명과 도식도
 
-<img width="673" alt="Efficient U-Net architecture for 64 → 256" src="https://user-images.githubusercontent.com/120080865/210080451-a3e45805-113d-49b3-b81d-05a14f6d7519.png">
+<img width="673" alt="imagen" src="https://user-images.githubusercontent.com/120080865/210080451-a3e45805-113d-49b3-b81d-05a14f6d7519.png">
 
+GAN(imagen) 모델 구조
 
 ## input
  - input 되는 요소와 데이터 차원 등
