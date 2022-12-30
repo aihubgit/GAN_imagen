@@ -135,7 +135,7 @@ trainer = ImagenTrainer(
 tforms = transforms.Compose([
         PadImage(),
         transforms.Resize((image_size, image_size)),
-        transforms.Rsample_textsandomHorizontalFlip(),
+        transforms.RandomHorizontalFlip(),
         transforms.ToTensor()])
 print('Data')
 
@@ -157,7 +157,7 @@ trainer.add_train_dataloader(dl)
 print('Network')
 trainer.load(network, noop_if_not_exist = True)
 
-sample_texts=[texts]
+sample_texts=[args.texts]
 
 
 rate = deque([1], maxlen=5)
