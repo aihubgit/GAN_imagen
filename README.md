@@ -7,8 +7,8 @@
 
 <p align='center'>
 <img width="673" alt="imagen" src="https://user-images.githubusercontent.com/120080865/210080451-a3e45805-113d-49b3-b81d-05a14f6d7519.png">
-
- GAN(imagen) 모델 구조
+<p align='center'>
+GAN(imagen) 모델 구조
 
 ## input
  - input 되는 요소와 데이터 차원 등
