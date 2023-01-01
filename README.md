@@ -31,13 +31,11 @@ GAN(imagen) 모델 구조
  
  
 ## training 요소들
- - 사용된 loss function, optimizer 등 간략한 설명, epoch, learning rate, batch size 등 최종 하이퍼파라미터 값 기재
  
  - epoch(학습량) : iter(200000)
  - input_image_size(입력 이미지 크기) : 1024
  - output_image_size(출력 이미지 크기) : 256
  - batch_size(한번 학습에 입력되는 데이터 수) : 4
- - dimension(특징의 수) : 256
  - learning_rate(학습률) : 1e-4
  
 
