@@ -10,10 +10,10 @@ GAN(Imagen)은 두개의 모델이 있습니다. 텍스트(언어) 이해를 위
 
 <p align='center'>
 <img width="673" alt="imagen" src="https://user-images.githubusercontent.com/120080865/210080451-a3e45805-113d-49b3-b81d-05a14f6d7519.png">
-<img width="673" alt="imagen" src="[https://user-images.githubusercontent.com/120080865/210080451-a3e45805-113d-49b3-b81d-05a14f6d7519.png](https://user-images.githubusercontent.com/120080865/210167361-e4f5420e-2526-448c-a34d-585fe8f59334.png)">
- 
 <p align='center'>
 GAN(imagen) 모델 구조
+
+ ![unet-model](https://user-images.githubusercontent.com/120080865/210167382-822c8c7f-0e3c-400a-b4a0-bdc9f3875128.png)
 
  
 ## input
