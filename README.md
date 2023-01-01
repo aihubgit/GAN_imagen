@@ -26,10 +26,20 @@ GAN(imagen) 모델 구조
  - 텍스트 기반 이미지 생성
 
 ## training dataset
- - traing 대상이 되는 데이터
-
+ 심볼[로고] 이미지(50k)
+ - 훈련에 100% 사용(이미지 50만개)
+ 
+ 
 ## training 요소들
  - 사용된 loss function, optimizer 등 간략한 설명, epoch, learning rate, batch size 등 최종 하이퍼파라미터 값 기재
+ 
+ - epoch(학습량) : iter(200000)
+ - input_image_size(입력 이미지 크기) : 1024
+ - output_image_size(출력 이미지 크기) : 256
+ - batch_size(한번 학습에 입력되는 데이터 수) : 4
+ - dimension(특징의 수) : 256
+ - learning_rate(학습률) : 1e-4
+ 
 
 ## evaluation metric
  - 성능 Plot 이나 Accuracy 등 기본적인 모델 성능 지표 및 수치, 유효성 검증 목표 지표와 달성 수치 기재
