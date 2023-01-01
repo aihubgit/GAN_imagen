@@ -7,8 +7,6 @@ GAN(Imagen)은 두개의 모델이 있습니다. 텍스트(언어) 이해를 위
 사용한 확산 모델은 'Efficient U-Net' 입니다.
 
 ## 모델 아키텍쳐
- - CNN 백본, Transformer 백본 등 구축계획서 명기된 간략한 모델 아키텍쳐 설명과 도식도
-
 
 <p align='center'>
 <img width="673" alt="imagen" src="https://user-images.githubusercontent.com/120080865/210080451-a3e45805-113d-49b3-b81d-05a14f6d7519.png">
