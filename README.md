@@ -9,7 +9,7 @@ GAN(Imagen)은 두개의 모델이 있습니다. 텍스트(언어) 이해를 위
 ## 모델 아키텍쳐
 
 <p align='center'>
-![unet-model](https://user-images.githubusercontent.com/120080865/210167382-822c8c7f-0e3c-400a-b4a0-bdc9f3875128.png)
+ <img width="673" alt="imagen" src="https://user-images.githubusercontent.com/120080865/210167382-822c8c7f-0e3c-400a-b4a0-bdc9f3875128.png">
 <p align='center'>
 U-Net 구조
 <p align='center'>
